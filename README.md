@@ -101,55 +101,35 @@ w celu restartu wchodzimy w narzędzia deweloperskie ,następnie sprawdź konfig
 
 do zakładki configuration.yaml wklejamy poniższy kod:
 
+```yaml
 mqtt:
+  switch:
+    - unique_id: "1a2c1953_o00"
+    name: "Output 00"
+    state_topic: "system/1a2c1953/outputs/0/get"
+    command_topic: "system/1a2c1953/outputs/0/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: true
 
-switch:
+    ////////////////////////////// dodanie kolejnego włącznika 
 
-- unique_id: "1a2c1953_o00"
-
-name: "Output 00"
-
-state_topic: "system/1a2c1953/outputs/0/get"
-
-command_topic: "system/1a2c1953/outputs/0/set"
-
-payload_on: "ON"
-
-payload_off: "OFF"
-
-state_on: "ON"
-
-state_off: "OFF"
-
-optimistic: false
-
-qos: 0
-
-retain: true
-
-////////////////////////////// dodanie kolejnego włącznika 
-
-- unique_id: "1a2c1953_o01"
-
-name: "Output 01"
-
-state_topic: "system/1a2c1953/outputs/1/get"
-
-command_topic: "system/1a2c1953/outputs/1/set"
-
-payload_on: "ON"
-
-payload_off: "OFF"
-
-state_on: "ON"
-
-state_off: "OFF"
-
-optimistic: false
-
-qos: 0
-
-retain: true
+    - unique_id: "1a2c1953_o01"
+    name: "Output 01"
+    state_topic: "system/1a2c1953/outputs/1/get"
+    command_topic: "system/1a2c1953/outputs/1/set"
+    payload_on: "ON"
+    payload_off: "OFF"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: true
+```
 
 ## Zaprogramowanie wyjścia np. żarówki
 
@@ -213,77 +193,51 @@ w zakładce configuration.yaml wpisujemy poniższy kod uzupełniając go o swoje
       device_class: "temperature"
 ```
 
-xxAxxxx to adres mqtt
-
+`xxAxxxx` to adres mqtt
 adres czujnika temperatury możemy odczytać na podstawie temperatury pokazanej w aplikacji DEIMIC, następnie porównując go z MQTT-Explorer, dodanie kolejnych czujników polega na zmianie nazwy oraz adresu czujnika. 
 
 poniżej przedstawiono kod do programowania innych typów czujników 
 
-sensor:
+```yaml
+  sensor:
+    - unique_id: "Temp_sensor"
+    name: "Temperature"
+    state_topic: "system/1a2c1953/analog_smart_inputs/30/0/get"
+    unit_of_measurement: "° C"
+    device_class: "temperature"
+    
+    - unique_id: "Humidity_sensor"
+    name: "Humidity"
+    state_topic: "system/1a2c1953/analog_smart_inputs/24/3/get"
+    unit_of_measurement: "%"
+    device_class: "moisture"
 
-- unique_id: "Temp_sensor"
+  binary_sensor:
+    - unique_id: "Motion_sensor"
+    name: "Motion sensor"
+    state_topic: "system/1a2c1953/smart_inputs/24/2/get"
+    payload_on: "SHORT:1"
+    payload_off: "SHORT:0"
+    device_class: "motion"
 
-name: "Temperature"
+    - unique_id: "smart_sensor01"
+    name: "Smart sensor 01"
+    state_topic: "system/1a2c1953/smart_inputs/22/0/get"
+    payload_on: "SHORT:1"
+    payload_off: "SHORT:0"
 
-state_topic: "system/1a2c1953/analog_smart_inputs/30/0/get"
+    - unique_id: "smart_sensor02"
+    name: "Smart sensor 02"
+    state_topic: "system/1a2c1953/smart_inputs/22/1/get"
+    payload_on: "SHORT:1"
+    payload_off: "SHORT:0"
 
-unit_of_measurement: "° C"
-
-device_class: "temperature"
-
-- unique_id: "Humidity_sensor"
-
-name: "Humidity"
-
-state_topic: "system/1a2c1953/analog_smart_inputs/24/3/get"
-
-unit_of_measurement: "%"
-
-device_class: "moisture"
-
-binary_sensor:
-
-- unique_id: "Motion_sensor"
-
-name: "Motion sensor"
-
-state_topic: "system/1a2c1953/smart_inputs/24/2/get"
-
-payload_on: "SHORT:1"
-
-payload_off: "SHORT:0"
-
-device_class: "motion"
-
-- unique_id: "smart_sensor01"
-
-name: "Smart sensor 01"
-
-state_topic: "system/1a2c1953/smart_inputs/22/0/get"
-
-payload_on: "SHORT:1"
-
-payload_off: "SHORT:0"
-
-- unique_id: "smart_sensor02"
-
-name: "Smart sensor 02"
-
-state_topic: "system/1a2c1953/smart_inputs/22/1/get"
-
-payload_on: "SHORT:1"
-
-payload_off: "SHORT:0"
-
-- unique_id: "smart_sensor01"
-
-name: "Smart sensor 01"
-
-state_topic: "system/<nr seryjny Master>/smart_inputs/22/0/get"
-
-payload_on: "SHORT:1"
-
-payload_off: "SHORT:0"
+    - unique_id: "smart_sensor01"
+    name: "Smart sensor 01"
+    state_topic: "system/<nr seryjny Master>/smart_inputs/22/0/get"
+    payload_on: "SHORT:1"
+    payload_off: "SHORT:0"
+```
 
 ## Zmiana jasności LED za pomocą suwaka (slidera)
 
